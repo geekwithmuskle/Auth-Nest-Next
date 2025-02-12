@@ -28,8 +28,12 @@ export class JwtGaurd implements CanActivate {
     return true;
   }
 
-  private extractTokenFromHeader(request: Request) {
-    const [type, token] = request.headers.authorization.split(' ') ?? [];
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers.authorization;
+    if (!authHeader) {
+      return undefined;
+    }
+    const [type, token] = request.headers.authorization.split(' ');
     return type === 'Bearer' ? token : undefined;
   }
 }
